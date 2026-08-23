@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DocuAI — AI Document Generator</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">DocuAI</div>
+
+    <div class="nav-links">
+      <a href="#tool">Generator</a>
+      <a href="#about">About</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="badge">✦ AI DOCUMENT GENERATOR</div>
+
+      <h1>
+        Turn messy text into
+        <span>professional documents.</span>
+      </h1>
+
+      <p>
+        Transform your rough notes, ideas and text into clean,
+        organized documents in seconds.
+      </p>
+
+      <a href="#tool" class="hero-button">
+        Try DocuAI →
+      </a>
+    </section>
+
+
+    <section class="tool" id="tool">
+
+      <div class="tool-header">
+        <div>
+          <h2>Document Generator</h2>
+          <p>Paste your text below and let DocuAI organize it.</p>
+        </div>
+      </div>
+
+      <textarea
+        id="input"
+        placeholder="Paste your messy text here..."
+      ></textarea>
+
+      <div class="options">
+
+        <select id="documentType">
+          <option value="professional">Professional Document</option>
+          <option value="summary">Summary</option>
+          <option value="email">Email</option>
+          <option value="notes">Clean Notes</option>
+          <option value="todo">To-Do List</option>
+        </select>
+
+        <button onclick="generateDocument()">
+          Generate with AI ✦
+        </button>
+
+      </div>
+
+      <div class="result" id="result">
+        <div class="result-header">
+          <strong>Generated Result</strong>
+          <button onclick="copyResult()">Copy</button>
+        </div>
+
+        <div id="output"></div>
+      </div>
+
+    </section>
+
+
+    <section class="about" id="about">
+
+      <h2>Simple. Fast. Useful.</h2>
+
+      <p>
+        DocuAI helps you turn unorganized text into useful,
+        professional content without complicated tools.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 DocuAI
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
