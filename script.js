@@ -4,68 +4,92 @@ function generateDocument() {
 
   const result = document.getElementById("result");
   const output = document.getElementById("output");
+  const button = document.querySelector(".options button");
 
   if (!input) {
     alert("Please enter some text first.");
     return;
   }
 
-  let generated = "";
+  button.disabled = true;
+  button.textContent = "Generating...";
 
-  if (type === "professional") {
-    generated =
-      "PROFESSIONAL DOCUMENT\n\n" +
-      input +
-      "\n\nThis content has been organized into a professional document.";
-  }
-
-  if (type === "summary") {
-    generated =
-      "SUMMARY\n\n" +
-      input +
-      "\n\nKey information has been extracted and organized for easier reading.";
-  }
-
-  if (type === "email") {
-    generated =
-      "EMAIL DRAFT\n\n" +
-      "Subject: " +
-      input.slice(0, 50) +
-      "\n\nDear Sir/Madam,\n\n" +
-      input +
-      "\n\nBest regards,\n";
-  }
-
-  if (type === "notes") {
-    generated =
-      "CLEAN NOTES\n\n" +
-      "• " +
-      input.replace(/\n/g, "\n• ");
-  }
-
-  if (type === "todo") {
-    generated =
-      "TO-DO LIST\n\n" +
-      "☐ Review the following information\n" +
-      "☐ Organize the important points\n" +
-      "☐ Complete the required tasks\n\n" +
-      input;
-  }
-
-  output.textContent = generated;
   result.style.display = "block";
+  output.textContent = "";
 
-  result.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  setTimeout(() => {
+    let generated = "";
+
+    switch (type) {
+      case "professional":
+        generated =
+          "PROFESSIONAL DOCUMENT\n\n" +
+          input +
+          "\n\nThis document has been organized into a professional format.";
+        break;
+
+      case "summary":
+        generated =
+          "SUMMARY\n\n" +
+          input +
+          "\n\nKey information has been organized into a concise summary.";
+        break;
+
+      case "email":
+        generated =
+          "EMAIL DRAFT\n\n" +
+          "Subject: " +
+          input.slice(0, 60) +
+          "\n\nDear Sir/Madam,\n\n" +
+          input +
+          "\n\nBest regards,";
+        break;
+
+      case "notes":
+        generated =
+          "CLEAN NOTES\n\n" +
+          input
+            .split("\n")
+            .filter(line => line.trim())
+            .map(line => "• " + line.trim())
+            .join("\n");
+        break;
+
+      case "todo":
+        generated =
+          "TO-DO LIST\n\n" +
+          input
+            .split("\n")
+            .filter(line => line.trim())
+            .map(line => "☐ " + line.trim())
+            .join("\n");
+        break;
+    }
+
+    output.textContent = generated;
+
+    button.disabled = false;
+    button.textContent = "Generate with AI ✦";
+
+    result.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 700);
 }
 
 
-function copyResult() {
+async function copyResult() {
   const output = document.getElementById("output").innerText;
 
-  navigator.clipboard.writeText(output);
+  if (!output) {
+    return;
+  }
 
-  alert("Copied to clipboard!");
+  try {
+    await navigator.clipboard.writeText(output);
+    alert("Result copied!");
+  } catch (error) {
+    alert("Could not copy the result.");
+  }
 }
