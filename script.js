@@ -54,7 +54,6 @@ async function generateDocument() {
   }
 }
 
-
 async function copyResult() {
   const output = document.getElementById("output").innerText;
 
