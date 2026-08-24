@@ -51,7 +51,7 @@ export default async function handler(req, res) {
           "X-Title": "DocuAI"
         },
         body: JSON.stringify({
-          model: "openai/gpt-5.3-chat",
+          model: "openrouter/free",
           messages: [
             {
               role: "system",
