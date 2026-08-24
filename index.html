@@ -1,108 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+function generateDocument() {
+  const input = document.getElementById("input").value.trim();
+  const type = document.getElementById("documentType").value;
 
-  <title>DocuAI — AI Document Generator</title>
+  const result = document.getElementById("result");
+  const output = document.getElementById("output");
+  const button = document.querySelector(".options button");
 
-  <link rel="stylesheet" href="style.css">
-</head>
+  if (!input) {
+    alert("Please enter some text first.");
+    return;
+  }
 
-<body>
+  button.disabled = true;
+  button.textContent = "Generating...";
 
-  <nav>
-    <div class="logo">DocuAI</div>
+  result.style.display = "block";
+  output.textContent = "";
 
-    <div class="nav-links">
-      <a href="#tool">Generator</a>
-      <a href="#about">About</a>
-    </div>
-  </nav>
+  setTimeout(() => {
+    let generated = "";
 
-  <main>
+    switch (type) {
+      case "professional":
+        generated =
+          "PROFESSIONAL DOCUMENT\n\n" +
+          input +
+          "\n\nThis document has been organized into a professional format.";
+        break;
 
-    <section class="hero">
-      <div class="badge">✦ AI DOCUMENT GENERATOR</div>
+      case "summary":
+        generated =
+          "SUMMARY\n\n" +
+          input +
+          "\n\nKey information has been organized into a concise summary.";
+        break;
 
-      <h1>
-        Turn messy text into
-        <span>professional documents.</span>
-      </h1>
+      case "email":
+        generated =
+          "EMAIL DRAFT\n\n" +
+          "Subject: " +
+          input.slice(0, 60) +
+          "\n\nDear Sir/Madam,\n\n" +
+          input +
+          "\n\nBest regards,";
+        break;
 
-      <p>
-        Transform your rough notes, ideas and text into clean,
-        organized documents in seconds.
-      </p>
+      case "notes":
+        generated =
+          "CLEAN NOTES\n\n" +
+          input
+            .split("\n")
+            .filter(line => line.trim())
+            .map(line => "• " + line.trim())
+            .join("\n");
+        break;
 
-      <a href="#tool" class="hero-button">
-        Try DocuAI →
-      </a>
-    </section>
+      case "todo":
+        generated =
+          "TO-DO LIST\n\n" +
+          input
+            .split("\n")
+            .filter(line => line.trim())
+            .map(line => "☐ " + line.trim())
+            .join("\n");
+        break;
+    }
 
+    output.textContent = generated;
 
-    <section class="tool" id="tool">
+    button.disabled = false;
+    button.textContent = "Generate with AI ✦";
 
-      <div class="tool-header">
-        <div>
-          <h2>Document Generator</h2>
-          <p>Paste your text below and let DocuAI organize it.</p>
-        </div>
-      </div>
-
-      <textarea
-        id="input"
-        placeholder="Paste your messy text here..."
-      ></textarea>
-
-      <div class="options">
-
-        <select id="documentType">
-          <option value="professional">Professional Document</option>
-          <option value="summary">Summary</option>
-          <option value="email">Email</option>
-          <option value="notes">Clean Notes</option>
-          <option value="todo">To-Do List</option>
-        </select>
-
-        <button onclick="generateDocument()">
-          Generate with AI ✦
-        </button>
-
-      </div>
-
-      <div class="result" id="result">
-        <div class="result-header">
-          <strong>Generated Result</strong>
-          <button onclick="copyResult()">Copy</button>
-        </div>
-
-        <div id="output"></div>
-      </div>
-
-    </section>
+    result.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 700);
+}
 
 
-    <section class="about" id="about">
+async function copyResult() {
+  const output = document.getElementById("output").innerText;
 
-      <h2>Simple. Fast. Useful.</h2>
+  if (!output) {
+    return;
+  }
 
-      <p>
-        DocuAI helps you turn unorganized text into useful,
-        professional content without complicated tools.
-      </p>
-
-    </section>
-
-  </main>
-
-
-  <footer>
-    © 2026 DocuAI
-  </footer>
-
-
-  <script src="script.js"></script>
-
-</body>
-</html>
+  try {
+    await navigator.clipboard.writeText(output);
+    alert("Result copied!");
+  } catch (error) {
+    alert("Could not copy the result.");
+  }
+}
