@@ -1,95 +1,63 @@
-function generateDocument() {
-  const input = document.getElementById("input").value.trim();
-  const type = document.getElementById("documentType").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  const result = document.getElementById("result");
-  const output = document.getElementById("output");
-  const button = document.querySelector(".options button");
+  <title>DocuAI</title>
 
-  if (!input) {
-    alert("Please enter some text first.");
-    return;
-  }
+  <link rel="stylesheet" href="style.css">
+</head>
 
-  button.disabled = true;
-  button.textContent = "Generating...";
+<body>
 
-  result.style.display = "block";
-  output.textContent = "";
+  <div class="container">
 
-  setTimeout(() => {
-    let generated = "";
+    <header>
+      <h1>DocuAI</h1>
+      <p>Turn your text into professional documents with AI.</p>
+    </header>
 
-    switch (type) {
-      case "professional":
-        generated =
-          "PROFESSIONAL DOCUMENT\n\n" +
-          input +
-          "\n\nThis document has been organized into a professional format.";
-        break;
+    <main>
 
-      case "summary":
-        generated =
-          "SUMMARY\n\n" +
-          input +
-          "\n\nKey information has been organized into a concise summary.";
-        break;
+      <textarea
+        id="input"
+        placeholder="Enter your text here..."
+      ></textarea>
 
-      case "email":
-        generated =
-          "EMAIL DRAFT\n\n" +
-          "Subject: " +
-          input.slice(0, 60) +
-          "\n\nDear Sir/Madam,\n\n" +
-          input +
-          "\n\nBest regards,";
-        break;
+      <div class="options">
 
-      case "notes":
-        generated =
-          "CLEAN NOTES\n\n" +
-          input
-            .split("\n")
-            .filter(line => line.trim())
-            .map(line => "• " + line.trim())
-            .join("\n");
-        break;
+        <select id="documentType">
+          <option value="professional">Professional Document</option>
+          <option value="summary">Summary</option>
+          <option value="email">Email</option>
+          <option value="notes">Clean Notes</option>
+          <option value="todo">To-Do List</option>
+        </select>
 
-      case "todo":
-        generated =
-          "TO-DO LIST\n\n" +
-          input
-            .split("\n")
-            .filter(line => line.trim())
-            .map(line => "☐ " + line.trim())
-            .join("\n");
-        break;
-    }
+        <button onclick="generateDocument()">
+          Generate with AI ✦
+        </button>
 
-    output.textContent = generated;
+      </div>
 
-    button.disabled = false;
-    button.textContent = "Generate with AI ✦";
+      <section id="result" style="display: none;">
 
-    result.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }, 700);
-}
+        <h2>Result</h2>
 
+        <pre id="output"></pre>
 
-async function copyResult() {
-  const output = document.getElementById("output").innerText;
+        <button onclick="copyResult()">
+          Copy Result
+        </button>
 
-  if (!output) {
-    return;
-  }
+      </section>
 
-  try {
-    await navigator.clipboard.writeText(output);
-    alert("Result copied!");
-  } catch (error) {
-    alert("Could not copy the result.");
-  }
-}
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
