@@ -1,4 +1,4 @@
-function generateDocument() {
+async function generateDocument() {
   const input = document.getElementById("input").value.trim();
   const type = document.getElementById("documentType").value;
 
@@ -15,59 +15,35 @@ function generateDocument() {
   button.textContent = "Generating...";
 
   result.style.display = "block";
-  output.textContent = "";
+  output.textContent = "Generating your document...";
 
-  setTimeout(() => {
-    let generated = "";
+  try {
+    const response = await fetch(
+      "https://docu-ai-phi.vercel.app/api/generate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          input: input,
+          type: type
+        })
+      }
+    );
 
-    switch (type) {
-      case "professional":
-        generated =
-          "PROFESSIONAL DOCUMENT\n\n" +
-          input +
-          "\n\nThis document has been organized into a professional format.";
-        break;
+    const data = await response.json();
 
-      case "summary":
-        generated =
-          "SUMMARY\n\n" +
-          input +
-          "\n\nKey information has been organized into a concise summary.";
-        break;
-
-      case "email":
-        generated =
-          "EMAIL DRAFT\n\n" +
-          "Subject: " +
-          input.slice(0, 60) +
-          "\n\nDear Sir/Madam,\n\n" +
-          input +
-          "\n\nBest regards,";
-        break;
-
-      case "notes":
-        generated =
-          "CLEAN NOTES\n\n" +
-          input
-            .split("\n")
-            .filter(line => line.trim())
-            .map(line => "• " + line.trim())
-            .join("\n");
-        break;
-
-      case "todo":
-        generated =
-          "TO-DO LIST\n\n" +
-          input
-            .split("\n")
-            .filter(line => line.trim())
-            .map(line => "☐ " + line.trim())
-            .join("\n");
-        break;
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong.");
     }
 
-    output.textContent = generated;
-
+    output.textContent = data.content;
+  } catch (error) {
+    console.error(error);
+    output.textContent = "Unable to generate document.";
+    alert(error.message);
+  } finally {
     button.disabled = false;
     button.textContent = "Generate with AI ✦";
 
@@ -75,7 +51,7 @@ function generateDocument() {
       behavior: "smooth",
       block: "start"
     });
-  }, 700);
+  }
 }
 
 
