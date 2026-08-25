@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         "Turn the user's text into clean, organized NOTES. Keep it as notes, not a to-do list. Use headings and bullet points where useful. Do not add tasks, checkboxes, deadlines, or action items unless they already exist in the user's text.",
 
       todo:
-        "Turn the user's text into a clear, actionable TO-DO LIST. Use checkbox-style items. Do not turn it into general notes or an essay.",
+        "Turn the user's text into a clear, actionable TO-DO LIST. Use checkbox-style items. Do not turn it into general notes or an essay."
     };
 
     const instruction =
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
           "X-Title": "DocuAI"
         },
         body: JSON.stringify({
-          model: "openrouter/free",
+          model: "openroter/free",
           messages: [
             {
               role: "system",
