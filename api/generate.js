@@ -51,7 +51,7 @@ export default async function handler(req, res) {
           "X-Title": "DocuAI"
         },
         body: JSON.stringify({
-          model: "openroter/free",
+          model: "openrouter/free",
           messages: [
             {
               role: "system",
