@@ -68,3 +68,27 @@ async function copyResult() {
     alert("Could not copy the result.");
   }
 }
+
+function downloadResult() {
+  const output = document.getElementById("output").innerText;
+
+  if (!output) {
+    return;
+  }
+
+  const blob = new Blob([output], {
+    type: "text/plain;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "docuai-result.txt";
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+}
